@@ -1,0 +1,22 @@
+{
+  "name": "boebot_klasa",
+  "version": "0.0.1",
+  "description": "A Discord bot based on Boebot but rewritten with Klasa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TortleOG/boebot_klasa.git"
+  },
+  "author": "Adam Mahood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TortleOG/boebot_klasa/issues"
+  },
+  "homepage": "https://github.com/TortleOG/boebot_klasa#readme",
+  "devDependencies": {
+    "eslint": "^4.10.0"
+  }
+}
