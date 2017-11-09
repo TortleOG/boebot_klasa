@@ -18,5 +18,9 @@
   "homepage": "https://github.com/TortleOG/boebot_klasa#readme",
   "devDependencies": {
     "eslint": "^4.10.0"
+  },
+  "dependencies": {
+    "discord.js": "github:hydrabolt/discord.js#master",
+    "klasa": "github:dirigeants/klasa"
   }
 }
