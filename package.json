@@ -22,6 +22,8 @@
   "dependencies": {
     "discord.js": "github:hydrabolt/discord.js#master",
     "klasa": "github:dirigeants/klasa#master",
+    "moment": "^2.19.2",
+    "moment-duration-format": "^1.3.0",
     "ms": "^2.0.0",
     "rethinkdbdash": "^2.3.31",
     "snekfetch": "^3.5.8",
