@@ -24,6 +24,7 @@
     "klasa": "github:dirigeants/klasa#master",
     "ms": "^2.0.0",
     "rethinkdbdash": "^2.3.31",
-    "snekfetch": "^3.5.8"
+    "snekfetch": "^3.5.8",
+    "ytdl-core": "^0.18.2"
   }
 }
