@@ -1,6 +1,6 @@
 {
   "name": "boebot_klasa",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A Discord bot based on Boebot but rewritten with Klasa.",
   "main": "index.js",
   "scripts": {
