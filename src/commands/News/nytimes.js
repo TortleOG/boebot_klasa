@@ -12,7 +12,23 @@ module.exports = class extends Command {
 			aliases: ['nyt'],
 			botPerms: ['EMBED_LINKS'],
 			description: 'Grabs different news articles from the New York Times API.',
-			usage: '[sources|sections] [input:str]'
+			usage: '[sources|sections] [input:str]',
+			extendedHelp: [
+				'The default prefix is `b!`. If the guild owner has changed the prefix, you will have to substitute `b!` for the guilds prefix.',
+				'\n= Example Usage =',
+				'b!nytimes [type], [parameters], [result-number]',
+				'		or',
+				'b!nyt top stories, home, 10',
+				'\n= Types =',
+				'There are 3 request types:\n  1. top stories\n  2. newswire\n  3. reviews',
+				'\n= Top Stories =',
+				'There is only 1 parameter for a top story request: a section of the New York Times. To view all sections, type `b!nyt sections`.',
+				'\n= Newswire =',
+				'There are 2 parameters for newswire. A source and a section. To view sources, type `b!nyt sources`. An example command would be `b!nyt newswire, all all`.',
+				'\n= Reviews =',
+				'The only parameter for reviews is the name of a movie. For example, `b!nyt reviews, the emoji movie`.'
+
+			].join('\n')
 		});
 
 		this.matchRegex = /([^,])+/gi;
