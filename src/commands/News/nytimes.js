@@ -84,9 +84,9 @@ module.exports = class extends Command {
 	}
 
 	async request(url, param = '') {
-		const { body: { results } } = await fetch(`${url}?api-key=${NYTIMES}${param.length > 0 ? `&${param}` : ``}`);
+		const { body: { results } } = await fetch(`${url}?api-key=${NYTIMES}${param.length > 0 ? `&${param}` : ''}`);
 
-		this.info = {
+		this.info = results.length > 0 && this.page + 1 <= results.length ? {
 			title: results[this.page].title || results[this.page].headline,
 			short: results[this.page].abstract || results[this.page].summary_short,
 			url: results[this.page].url,
@@ -97,19 +97,25 @@ module.exports = class extends Command {
 			criticsPick: results[this.page].critics_pick,
 			page: this.page,
 			pages: results.length
-		};
+		} : { noRes: true };
 	}
 
 	get embed() {
-		const embed = new this.client.methods.Embed()
-			.setAuthor('New York Times')
-			.setDescription([
-				`**__${this.info.title}__**`,
-				`${this.info.short}${this.info.link !== null ? `\n**Critics Pick**: ${this.info.criticsPick === 1 ? 'Yes' : 'No'}` : ''}`,
-				`[${this.info.link === null ? 'Read More' : this.info.link.text}](${this.info.url || this.info.link.url})`
-			].join('\n'))
-			.setFooter(`Result ${this.info.page + 1} / ${this.info.pages}`)
-			.setTimestamp();
+		const embed = this.info.noRes === undefined ?
+			new this.client.methods.Embed()
+				.setAuthor('New York Times')
+				.setDescription([
+					`**__${this.info.title}__**`,
+					`${this.info.short}${this.info.link !== null ? `\n**Critics Pick**: ${this.info.criticsPick === 1 ? 'Yes' : 'No'}` : ''}`,
+					`[${this.info.link === null ? 'Read More' : this.info.link.text}](${this.info.url || this.info.link.url})`
+				].join('\n'))
+				.setFooter(`Result ${this.info.page + 1} / ${this.info.pages}`)
+				.setTimestamp() :
+			new this.client.methods.Embed()
+				.setAuthor('New York Times')
+				.setDescription('**No Results Found.**')
+				.setFooter('No Results')
+				.setTimestamp();
 
 		return embed;
 	}
