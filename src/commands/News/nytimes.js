@@ -61,17 +61,24 @@ module.exports = class extends Command {
 
 		input = input.replace(this.replaceRegex, ',').match(this.matchRegex);
 
-		this.page = parseInt(input[2]) - 1 || 0;
+		const sectionIsNaN = isNaN(input[1]);
+
+		if (!sectionIsNaN) {
+			this.page = parseInt(input[1]) - 1 || 0;
+		} else {
+			this.page = parseInt(input[2]) - 1 || 0;
+		}
 
 		if (input[0] === 'top stories') {
-			if (!this.sections.includes(input[1] || 'home'))	throw `❌ | ${msg.author}, you did not select a valid section.`;
+			if (!this.sections.includes(sectionIsNaN ? input[1] || 'home' : 'home')) throw `❌ | ${msg.author}, you did not select a valid section.`;
 
-			await this.request(`${this.baseURL}/topstories/v2/${input[1] || 'home'}.json`);
+			await this.request(`${this.baseURL}/topstories/v2/${sectionIsNaN ? input[1] || 'home' : 'home'}.json`);
 		} else if (input[0] === 'newswire') {
+			// TODO: Refactor this to allow usage like 'newswire, 15'
 			const [source = 'all', section = 'all'] = input[1] !== undefined ? input[1].split(/\s+/) : [];
 
-			if (!this.sources.includes(source))	throw `❌ | ${msg.author}, you did not select a valid source.`;
-			else if (!this.sections.includes(section))	throw `❌ | ${msg.author}, you did not select a valid section.`;
+			if (!this.sources.includes(source)) throw `❌ | ${msg.author}, you did not select a valid source.`;
+			else if (!this.sections.includes(section)) throw `❌ | ${msg.author}, you did not select a valid section.`;
 
 			await this.request(`${this.baseURL}/news/v3/content/${source}/${section}.json`, 'limit=10');
 		} else if (input[0] === 'reviews') {
