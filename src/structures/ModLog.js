@@ -12,10 +12,6 @@ module.exports = class ModLog {
 		this.case = null;
 	}
 
-	async _init() {
-		if (!(await this.provider.hasTable('modlogs'))) await this.provider.createTable('modlogs');
-	}
-
 	setType(type) {
 		this.type = type;
 		return this;
