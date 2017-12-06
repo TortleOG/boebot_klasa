@@ -13,6 +13,10 @@ module.exports = class extends Command {
 		});
 	}
 
+	async init() {
+		if (!(await this.provider.hasTable('modlogs'))) await this.provider.createTable('modlogs');
+	}
+
 	async run(msg, [selected]) {
 		const { modlogs } = await this.provider.get('modlogs', msg.guild.id);
 		const log = modlogs[selected === 'latest' ? modlogs.length - 1 : selected - 1];
