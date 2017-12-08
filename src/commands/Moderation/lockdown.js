@@ -11,8 +11,7 @@ module.exports = class extends Command {
 			permLevel: 2,
 			botPerms: ['MANAGE_CHANNELS'],
 			description: 'Locks a text channel for a specified time.',
-			usage: '<time:str>',
-			usageDelim: undefined
+			usage: '<time:str>'
 		});
 	}
 
