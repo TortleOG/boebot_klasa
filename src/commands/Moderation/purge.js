@@ -25,7 +25,7 @@ module.exports = class extends Command {
 			messages = messages.filter(mes => mes.author.id === filterBy).array().slice(0, amount);
 		}
 
-		await msg.channel.bulkDelete(messages).catch(console.error);
+		await msg.channel.bulkDelete(messages).catch(err => { throw err; });
 
 		return msg.send(`🗑 | Deleted ${user ? `**${amount} messages** from user **${user.tag}**` : `**${amount} messages**`}.`);
 	}

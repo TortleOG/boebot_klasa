@@ -26,7 +26,7 @@ module.exports = class extends Command {
 		else if (member.highestRole.position >= msg.member.highestRole.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
 		else if (!member.roles.has(role.id)) throw `❌ | ${msg.author}, this user is not muted.`;
 
-		await member.removeRole(role).catch(console.error);
+		await member.removeRole(role).catch(err => { throw err; });
 
 		if (msg.guild.settings.modlog) {
 			new ModLog(msg.guild)
