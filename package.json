@@ -23,7 +23,7 @@
     "discord.js": "github:hydrabolt/discord.js#master",
     "klasa": "^0.4.0",
     "moment": "^2.19.3",
-    "moment-duration-format": "^1.3.0",
+    "moment-duration-format": "^2.0.0",
     "ms": "^2.1.1",
     "node-opus": "^0.2.7",
     "rethinkdbdash": "^2.3.31",
