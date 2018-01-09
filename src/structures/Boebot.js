@@ -33,16 +33,13 @@ module.exports = class BoebotClient extends Client {
 		this.currency = null;
 
 		this.permissionLevels = permissionLevels;
-
-		this.once('ready', this.setup.bind(this));
 	}
 
 	async login(token) {
-		await this.validate();
 		return super.login(token);
 	}
 
-	async setup() {
+	setup() {
 		this.currency = new Currency(this);
 	}
 
