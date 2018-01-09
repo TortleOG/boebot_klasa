@@ -2,16 +2,22 @@ const BoebotClient = require('./structures/Boebot');
 
 const { token } = require('../settings.json');
 
-const vMASTER = 'v8.9';
-const [MAJOR, MINOR] = process.version.split('.');
-
-if (vMASTER !== `${MAJOR}.${MINOR}`) throw `This bot requires a node version of atleast ${vMASTER} You have version ${process.version} installed. Please install the required version.`;
-
 const client = new BoebotClient({
 	prefix: 'b!',
 	cmdEditing: true,
 	provider: { engine: 'rethinkdb' },
-	clientOptions: { fetchAllMembers: true }
+	clientOptions: {
+		fetchAllMembers: true,
+		disabledEvents: [
+			'TYPING_START',
+			'RELATIONSHIP_ADD',
+			'RELATIONSHIP_REMOVE',
+			'CHANNEL_PINS_UPDATE',
+			'PRESENCE_UPDATE',
+			'USER_UPDATE',
+			'USER_NOTE_UPDATE'
+		]
+	}
 });
 
 return client.login(token);
