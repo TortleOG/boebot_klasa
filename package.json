@@ -20,7 +20,7 @@
     "eslint": "^4.12.1"
   },
   "dependencies": {
-    "discord.js": "github:hydrabolt/discord.js",
+    "discord.js": "github:hydrabolt/discord.js#master",
     "klasa": "github:dirigeants/klasa",
     "moment": "^2.19.3",
     "moment-duration-format": "^2.0.0",
