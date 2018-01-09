@@ -13,7 +13,7 @@ module.exports = class extends Command {
 
 	async run(msg) {
 		if (!this.client.queue.has(msg.guild.id)) {
-			throw `❌ | ${msg.author}, there are no songs in the queue. Add some songs to the queue first with \`${msg.guild.settings.prefix}add <song:url>\`.`;
+			throw `❌ | ${msg.author}, there are no songs in the queue. Add some songs to the queue first with \`${msg.guild.configs.prefix}add <song:url>\`.`;
 		} else if (!msg.guild.voiceConnection) {
 			await this.client.commands.get('join').run(msg);
 			return this.run(msg);

@@ -3,7 +3,7 @@ const { Event } = require('klasa');
 module.exports = class extends Event {
 
 	run(member) {
-		const channel = member.guild.channels.get(member.guild.settings.modlog);
+		const channel = member.guild.channels.get(member.guild.configs.modlog);
 
 		if (!channel) throw `❌ | I could not find a 'modlog' channel. Was it deleted?`;
 

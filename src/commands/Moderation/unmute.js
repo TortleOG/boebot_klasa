@@ -19,7 +19,7 @@ module.exports = class extends Command {
 	async run(msg, [member, ...reason]) {
 		reason = reason.length > 0 ? reason.join(' ') : null;
 
-		const role = msg.guild.roles.get(msg.guild.settings.muterole);
+		const role = msg.guild.roles.get(msg.guild.configs.muterole);
 		if (!role) throw `❌ | I could not find a 'muted' role. Was it deleted?`;
 
 		if (member.user.bot) throw `❌ | ${msg.author}, I cannot execute moderation actions against bots.`;
@@ -28,7 +28,7 @@ module.exports = class extends Command {
 
 		await member.removeRole(role).catch(err => { throw err; });
 
-		if (msg.guild.settings.modlog) {
+		if (msg.guild.configs.modlog) {
 			new ModLog(msg.guild)
 				.setType('unmute')
 				.setUser(member.user)

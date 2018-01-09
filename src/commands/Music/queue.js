@@ -12,7 +12,7 @@ module.exports = class extends Command {
 
 	async run(msg) {
 		const handler = this.client.queue.get(msg.guild.id);
-		if (!handler) throw `❌ | ${msg.author}, add some songs to the queue first with \`${msg.guild.settings.prefix}add <song:url>\`.`;
+		if (!handler) throw `❌ | ${msg.author}, add some songs to the queue first with \`${msg.guild.configs.prefix}add <song:url>\`.`;
 
 		const output = [];
 		for (let i = 0; i < Math.min(handler.songs.length, 15); i++) {

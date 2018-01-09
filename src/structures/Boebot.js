@@ -9,13 +9,13 @@ const Currency = require('./Currency');
 const permissionLevels = new PermissionLevels()
 	.addLevel(0, false, () => true)
 	.addLevel(2, false, (client, msg) => {
-		if (!msg.guild || !msg.guild.settings.modRole) return false;
-		const modRole = msg.guild.roles.get(msg.guild.settings.modRole);
+		if (!msg.guild || !msg.guild.configs.modRole) return false;
+		const modRole = msg.guild.roles.get(msg.guild.configs.modRole);
 		return modRole && msg.member.roles.has(modRole.id);
 	})
 	.addLevel(3, false, (client, msg) => {
-		if (!msg.guild || !msg.guild.settings.adminRole) return false;
-		const adminRole = msg.guild.roles.get(msg.guild.settings.adminRole);
+		if (!msg.guild || !msg.guild.configs.adminRole) return false;
+		const adminRole = msg.guild.roles.get(msg.guild.configs.adminRole);
 		return adminRole && msg.member.roles.has(adminRole.id);
 	})
 	.addLevel(6, false, (client, msg) => msg.guild && msg.member.permissions.has('MANAGE_GUILD'))
@@ -47,11 +47,11 @@ module.exports = class BoebotClient extends Client {
 	}
 
 	async validate() {
-		if (!this.ready) return setTimeout(() => this.validate(), 1000);
-		else if (!this.settings.guilds.schema.modlog) await this.settings.guilds.add('modlog', { type: 'TextChannel' });
-		else if (!this.settings.guilds.schema.muterole) await this.settings.guilds.add('muterole', { type: 'Role' });
-		else if (!this.settings.guilds.schema.modRole) await this.settings.guilds.add('modRole', { type: 'Role' });
-		else if (!this.settings.guilds.schema.adminRole) await this.settings.guilds.add('adminRole', { type: 'Role' });
+		const { schema } = this.gateways.guilds;
+		if (!schema.hasKey('modlog')) await schema.addKey('modlog', { type: 'TextChannel' });
+		else if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
+		else if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
+		else if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
 		return null;
 	}
 

@@ -39,7 +39,7 @@ module.exports = class ModLog {
 	}
 
 	async send() {
-		const modlog = await this.guild.channels.get(this.guild.settings.modlog);
+		const modlog = await this.guild.channels.get(this.guild.configs.modlog);
 		if (!modlog) throw 'The modlog channel does not exist. Where did it go?';
 		this.case = await this.getCase();
 		return modlog.send({ embed: this.embed });
@@ -70,7 +70,7 @@ module.exports = class ModLog {
 			.setDescription([
 				`**Member**: ${this.user.tag} | ${this.user.id}`,
 				`**Moderator**: ${this.moderator.tag} | ${this.moderator.id}`,
-				`**Reason**: ${this.reason || `No reason specified. Write '${this.guild.settings.prefix}reason <case#>' to claim this log.`}`
+				`**Reason**: ${this.reason || `No reason specified. Write '${this.guild.configs.prefix}reason <case#>' to claim this log.`}`
 			])
 			.setFooter(`Case ${this.case}`, this.client.user.displayAvatarURL({ format: 'jpg' }))
 			.setTimestamp();

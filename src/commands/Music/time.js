@@ -13,7 +13,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg) {
-		if (!msg.guild.voiceConnection) throw `❌ | ${msg.author}, I am not connected to any voice channels, add some songs to the queue with \`${msg.guild.settings.prefix}add <song:url>\`.`;
+		if (!msg.guild.voiceConnection) throw `❌ | ${msg.author}, I am not connected to any voice channels, add some songs to the queue with \`${msg.guild.configs.prefix}add <song:url>\`.`;
 
 		const handler = this.client.queue.get(msg.guild.id);
 		if (!handler || !handler.playing) throw `❌ | ${msg.author}, I am not playing music.`;
