@@ -3,7 +3,7 @@ const { Client, PermissionLevels } = require('klasa');
 const { Collection } = require('discord.js');
 
 // Externals
-const Currency = require('./Currency');
+const Currency = require('./structures/Currency');
 
 // Add custom perm levels
 const permissionLevels = new PermissionLevels()

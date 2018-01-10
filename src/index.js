@@ -1,4 +1,4 @@
-const BoebotClient = require('./structures/Boebot');
+const BoebotClient = require('./lib/Boebot');
 
 const { token } = require('../settings.json');
 
