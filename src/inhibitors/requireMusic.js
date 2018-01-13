@@ -8,7 +8,7 @@ module.exports = class extends Inhibitor {
 
 	async run(msg, cmd) {
 		if (cmd.category === 'Music' && msg.guild.configs.music.musicTC) {
-			if (msg.channel.id !== msg.guild.configs.musicTC) {
+			if (msg.channel.id !== msg.guild.configs.music.musicTC) {
 				return [
 					`❌ | ${msg.author}, please head over to `,
 					`${msg.guild.channels.get(msg.guild.configs.music.musicTC)} and use this command.`
