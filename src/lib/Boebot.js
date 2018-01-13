@@ -1,6 +1,5 @@
 // Packages
 const { Client, PermissionLevels } = require('klasa');
-const { Collection } = require('discord.js');
 
 // Externals
 const Currency = require('./structures/Currency');
@@ -28,8 +27,6 @@ module.exports = class BoebotClient extends Client {
 
 	constructor(options) {
 		super(options);
-
-		this.queue = new Collection();
 
 		this.currency = null;
 
