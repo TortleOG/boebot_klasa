@@ -1,7 +1,9 @@
 const { Command } = require('klasa');
-const yt = require('ytdl-core');
+const { get: fetch } = require('snekfetch');
 
-const getInfo = require('util').promisify(yt.getInfo);
+const { API_KEYS } = require('../../../settings.json');
+
+const fetchUrl = url => fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${url}&key=${API_KEYS.YOUTUBE_API}`).then(res => res.body);
 
 module.exports = class extends Command {
 
@@ -9,13 +11,12 @@ module.exports = class extends Command {
 		super(...args, {
 			runIn: ['text'],
 			cooldown: 5,
-			aliases: [],
-			botPerms: ['USE_VAD'],
+			botPerms: ['USE_VAD', 'CONNECT'],
 			description: 'Adds a song to the queue.',
 			usage: '<song:str>'
 		});
 
-		this.YouTubeRegExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed)?)?\/|watch\/?\?(?:\S*?&?v=))|youtu\.be\/)([\w-]{11})(?:[^\w-]|$)/;
+		this.regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed)?)?\/|watch\/?\?(?:\S*?&?v=))|youtu\.be\/)([\w-]{11})(?:[^\w-]|$)/;
 
 		this.DEFAULT = {
 			playing: false,
@@ -23,22 +24,23 @@ module.exports = class extends Command {
 		};
 	}
 
-	async run(msg, [song]) {
-		const id = this.YouTubeRegExp.exec(song);
-		if (!id) throw `❌ | ${msg.author}, that is not a valid Youtube URL.`;
+	async run(msg, [url]) {
+		const youtubeURL = await this.getUrl(url);
+		if (!youtubeURL) throw `❌ | ${msg.author}, video not found.`;
 
-		const { title, length_seconds: secs } = await getInfo(`https://youtu.be/${id[1]}`);
+		const { music } = msg.guild;
+		const song = await music.add(msg.author, youtubeURL);
 
-		if (!this.client.queue.has(msg.guild.id)) this.client.queue.set(msg.guild.id, this.DEFAULT);
+		return msg.send(`🎵 | Added **${song.title}** to the queue 🎶`);
+	}
 
-		this.client.queue.get(msg.guild.id).songs.push({
-			url: song,
-			title: title,
-			seconds: secs,
-			requester: msg.author.username
-		});
+	async getUrl(url) {
+		const id = this.regExp.exec(url);
+		if (id) return `https://youtu.be/${id[1]}`;
+		const data = await fetchUrl(encodeURIComponent(url));
+		const video = data.items.find(item => item.id.kind !== 'youtube#channel');
 
-		return msg.send(`🎵 Added **${title}** to the queue 🎶`);
+		return video ? `https://youtu.be/${video.id.videoId}` : null;
 	}
 
 };

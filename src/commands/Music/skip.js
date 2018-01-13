@@ -6,16 +6,46 @@ module.exports = class extends Command {
 		super(...args, {
 			runIn: ['text'],
 			cooldown: 5,
-			description: 'Skips the current song in the queue.'
+			usage: '[-force]',
+			description: 'Skip the current song.'
 		});
+
+		this.requireMusic = true;
 	}
 
-	async run(msg) {
-		if (!msg.guild.voiceConnection) throw `❌ | ${msg.author}, I am not connected to any voice channels, add some songs to the queue with \`${msg.guild.configs.prefix}add <song:url>\`.`;
+	async run(msg, [force]) {
+		const { music } = msg.guild;
 
-		msg.guild.voiceConnection.dispatcher.end();
+		if (music.voiceChannel.members.size > 6) {
+			if (force) {
+				const hasPermission = await msg.hasAtLeastPermissionLevel(2);
+				if (hasPermission === false) throw `❌ | ${msg.author}, you can't execute this command with the force flag. You must be at least a ${msg.guild.roles.get(msg.guild.configs.modRole).name}.`;
+			} else {
+				const response = this.handleSkips(music, msg.author.id);
+				if (response) return msg.send(response);
+			}
+		}
 
-		return msg.send('⏭ | Skipped!');
+		await msg.send(`⏭ | Skipped ${music.queue[0].title}`);
+		music.skip(true);
+
+		return null;
+	}
+
+	handleSkips(musicInterface, user) {
+		if (!musicInterface.queue[0].skips) musicInterface.queue[0].skips = new Set();
+
+		if (musicInterface.queue[0].skips.has(user)) return '❌ | You have already voted to skip this song.';
+
+		musicInterface.queue[0].skips.add(user);
+		const members = musicInterface.voiceChannel.members.size - 1;
+
+		return this.shouldInhibit(members, musicInterface.queue[0].skips.size);
+	}
+
+	shouldInhibit(total, size) {
+		if (total <= 3) return true;
+		return size >= total * 0.4 ? false : `🔸 | Votes: ${size} of ${Math.ceil(total * 0.4)}`;
 	}
 
 };

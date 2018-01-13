@@ -1,4 +1,5 @@
 const { Command } = require('klasa');
+const { showSeconds } = require('../../lib/Utils');
 
 module.exports = class extends Command {
 
@@ -6,23 +7,27 @@ module.exports = class extends Command {
 		super(...args, {
 			runIn: ['text'],
 			cooldown: 5,
-			description: 'Displays the queue for the guild.'
+			description: 'Check the queue.'
 		});
 	}
 
 	async run(msg) {
-		const handler = this.client.queue.get(msg.guild.id);
-		if (!handler) throw `❌ | ${msg.author}, add some songs to the queue first with \`${msg.guild.configs.prefix}add <song:url>\`.`;
-
+		const { next, queue, autoplay } = msg.guild.music;
 		const output = [];
-		for (let i = 0; i < Math.min(handler.songs.length, 15); i++) {
-			output.push(`${i + 1}. ${handler.songs[i].title} - Requested by: ${handler.songs[i].requester}`);
+
+		if (queue.length === 0) throw `❌ | ${msg.author}, there are no songs currently in the queue.`;
+
+		for (let i = 0; i < Math.min(queue.length, 10); i++) {
+			output[i] = [
+				`[__\`${String(i + 1).padStart(2, 0)}\`__] *${queue[i].title.replace(/\*/g, '\\*')}* requested by **${queue[i].requester.tag || queue[i].requester}**`,
+				`   └── <${queue[i].url}> (${showSeconds(queue[i].seconds * 1000)})`
+			].join('\n');
 		}
 
-		return msg.send([
-			`🗒 | __**${msg.guild.name}'s Music Queue:**__ Currently **${output.length}** songs queued ${(handler.songs.length > 15 ? '*[Only next 15 shown]*' : '')}`,
-			`${'```'}${output.join('\n')}${'```'}`
-		]);
+		if (queue.length > 10) output.push(`\nShowing 10 songs of ${queue.length}`);
+		else if (autoplay) output.push(`\n**AutoPlay**: <${next}>`);
+
+		return msg.send(output.join('\n'));
 	}
 
 };
