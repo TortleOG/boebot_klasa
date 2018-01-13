@@ -23,7 +23,7 @@ module.exports = class extends Command {
 		const song = music.queue[number];
 		if (song.requester.id !== msg.author.id) {
 			const hasPermission = await msg.hasAtLeastPermissionLevel(2);
-			if (hasPermission === false) throw `❌ | ${msg.author}, you can't execute this command with the force flag. You must be at least a ${msg.guild.roles.get(msg.guild.configs.modRole).name}.`;
+			if (hasPermission === false) throw `❌ | ${msg.author}, you can't execute this command with the force flag. You must be at least a ${msg.guild.roles.get(msg.guild.configs.mod.modRole).name}.`;
 		}
 
 		music.queue.splice(number, 1);

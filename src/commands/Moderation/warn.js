@@ -21,7 +21,7 @@ module.exports = class extends Command {
 		if (user.bot) throw `❌ | ${msg.author}, I cannot execute moderation actions against bots.`;
 		else if (msg.guild.member(user).highestRole.position >= msg.member.highestRole.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
 
-		if (msg.guild.configs.modlog) {
+		if (msg.guild.configs.mod.modlog) {
 			new ModLog(msg.guild)
 				.setType('warn')
 				.setUser(user)

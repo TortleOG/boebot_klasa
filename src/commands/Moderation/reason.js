@@ -23,7 +23,7 @@ module.exports = class extends Command {
 		const log = row.modlogs[selected === 'latest' ? row.modlogs.length - 1 : selected - 1];
 		if (!log) throw `❌ | ${msg.author}, there are no modlogs with that case number.`;
 
-		const channel = await msg.guild.channels.get(msg.guild.configs.modlog);
+		const channel = await msg.guild.channels.get(msg.guild.configs.mod.modlog);
 		if (!channel) throw `❌ | I could not find a 'modlog' channel. Was it deleted?`;
 
 		const messages = await channel.messages.fetch({ limit: 100 });

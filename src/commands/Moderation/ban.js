@@ -29,7 +29,7 @@ module.exports = class extends Command {
 
 		await msg.guild.ban(user, { reason });
 
-		if (msg.guild.configs.modlog) {
+		if (msg.guild.configs.mod.modlog) {
 			new ModLog(msg.guild)
 				.setType('ban')
 				.setUser(user)

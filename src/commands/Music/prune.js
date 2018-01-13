@@ -20,7 +20,7 @@ module.exports = class extends Command {
 			if (hasPermission === false) {
 				throw [
 					`❌ | ${msg.author}, You can't execute this command when there are over 6 members. `,
-					`You must be at least a ${msg.guild.roles.get(msg.guild.configs.modRole).name}.`
+					`You must be at least a ${msg.guild.roles.get(msg.guild.configs.mod.modRole).name}.`
 				].join('');
 			}
 		}

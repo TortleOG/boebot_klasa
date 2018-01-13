@@ -19,7 +19,7 @@ module.exports = class extends Command {
 		if (music.voiceChannel.members.size > 6) {
 			if (force) {
 				const hasPermission = await msg.hasAtLeastPermissionLevel(2);
-				if (hasPermission === false) throw `❌ | ${msg.author}, you can't execute this command with the force flag. You must be at least a ${msg.guild.roles.get(msg.guild.configs.modRole).name}.`;
+				if (hasPermission === false) throw `❌ | ${msg.author}, you can't execute this command with the force flag. You must be at least a ${msg.guild.roles.get(msg.guild.configs.mod.modRole).name}.`;
 			} else {
 				const response = this.handleSkips(music, msg.author.id);
 				if (response) return msg.send(response);
