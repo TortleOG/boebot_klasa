@@ -9,13 +9,13 @@ const Music = require('./music/Music');
 const permissionLevels = new PermissionLevels()
 	.addLevel(0, false, () => true)
 	.addLevel(2, false, (client, msg) => {
-		if (!msg.guild || !msg.guild.configs.modRole) return false;
-		const modRole = msg.guild.roles.get(msg.guild.configs.modRole);
+		if (!msg.guild || !msg.guild.configs.mod.modRole) return false;
+		const modRole = msg.guild.roles.get(msg.guild.configs.mod.modRole);
 		return modRole && msg.member.roles.has(modRole.id);
 	})
 	.addLevel(3, false, (client, msg) => {
-		if (!msg.guild || !msg.guild.configs.adminRole) return false;
-		const adminRole = msg.guild.roles.get(msg.guild.configs.adminRole);
+		if (!msg.guild || !msg.guild.configs.mod.adminRole) return false;
+		const adminRole = msg.guild.roles.get(msg.guild.configs.mod.adminRole);
 		return adminRole && msg.member.roles.has(adminRole.id);
 	})
 	.addLevel(6, false, (client, msg) => msg.guild && msg.member.permissions.has('MANAGE_GUILD'))
@@ -45,13 +45,22 @@ module.exports = class BoebotClient extends Client {
 
 	async validate() {
 		const { schema } = this.gateways.guilds;
-		if (!schema.hasKey('modlog')) await schema.addKey('modlog', { type: 'TextChannel' });
-		if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
-		if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
-		if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
+
+		// Validate Moderation Folder
+		if (!schema.hasKey('mod')) {
+			await schema.addFolder('mod', {
+				modlog: { type: 'TextChannel' },
+				muterole: { type: 'Role' },
+				modRole: { type: 'Role' },
+				adminRole: { type: 'Role' }
+			});
+		}
+
+		// Validate Music Folder
 		if (!schema.hasKey('music')) {
 			await schema.addFolder('music', { musicTC: { type: 'TextChannel' } });
 		}
+
 		return null;
 	}
 
