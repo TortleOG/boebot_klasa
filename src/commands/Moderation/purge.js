@@ -6,7 +6,6 @@ module.exports = class extends Command {
 		super(...args, {
 			runIn: ['text'],
 			cooldown: 5,
-			aliases: ['prune'],
 			permLevel: 2,
 			botPerms: ['MANAGE_MESSAGES'],
 			description: 'Deletes X amount of messages from a channel, or from Y user.',
