@@ -1,9 +1,9 @@
 // Packages
 const { Client, PermissionLevels } = require('klasa');
-const { Collection } = require('discord.js');
 
 // Externals
-const Currency = require('./Currency');
+const Currency = require('./structures/Currency');
+const Music = require('./music/Music');
 
 // Add custom perm levels
 const permissionLevels = new PermissionLevels()
@@ -28,11 +28,11 @@ module.exports = class BoebotClient extends Client {
 	constructor(options) {
 		super(options);
 
-		this.queue = new Collection();
-
 		this.currency = null;
 
 		this.permissionLevels = permissionLevels;
+
+		this.queue = new Music(this);
 	}
 
 	async login(token) {
@@ -46,9 +46,12 @@ module.exports = class BoebotClient extends Client {
 	async validate() {
 		const { schema } = this.gateways.guilds;
 		if (!schema.hasKey('modlog')) await schema.addKey('modlog', { type: 'TextChannel' });
-		else if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
-		else if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
-		else if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
+		if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
+		if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
+		if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
+		if (!schema.hasKey('music')) {
+			await schema.addFolder('music', { musicTC: { type: 'TextChannel' } });
+		}
 		return null;
 	}
 

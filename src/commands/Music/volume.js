@@ -7,33 +7,27 @@ module.exports = class extends Command {
 			runIn: ['text'],
 			cooldown: 5,
 			description: 'Change the current volume of the stream.',
-			usage: '[volume:str]'
+			usage: '[volume:int]'
 		});
+
+		this.requireMusic = true;
 	}
 
 	async run(msg, [vol]) {
-		if (!msg.guild.voiceConnection) throw `❌ | ${msg.author}, I am not connected to any voice channels, add some songs to the queue with \`${msg.guild.configs.prefix}add <song:url>\`.`;
+		const { dispatcher, status } = msg.guild.music;
+		if (status !== 'playing') throw `❌ | ${msg.author}, I am not playing a song. My current status is: \`${status}\`.`;
 
-		const handler = this.client.queue.get(msg.guild.id);
-		if (!handler || !handler.playing) throw `❌ | ${msg.author}, I am not playing music.`;
+		if (!vol) return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%.`);
 
-		const { dispatcher } = msg.guild.voiceConnection;
+		if (vol < 0 || vol > 100) return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%.`);
 
-		if (!vol) {
-			return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%`);
-		} else if (!isNaN(vol)) {
-			vol = parseInt(vol);
+		const dispatchVolume = Math.round(dispatcher.volume * 50);
+		if (dispatchVolume >= 100) return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%.`);
+		else if (dispatchVolume <= 0) return msg.send(`🔇 | Volume: ${Math.round(dispatcher.volume * 50)}%.`);
 
-			if (vol < 0 || vol > 100) return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%`);
-			else if (Math.round(dispatcher.volume * 50) >= 100) return msg.send(`📢 | Volume: ${Math.round(dispatcher.volume * 50)}%`);
-			else if (Math.round(dispatcher.volume * 50) <= 0) return msg.send(`🔇 | Volume: ${Math.round(dispatcher.volume * 50)}%`);
+		dispatcher.setVolume(vol / 50);
 
-			dispatcher.setVolume(vol / 50);
-
-			return msg.send(`${vol > dispatcher.volume * 50 ? (dispatcher.volume === 2 ? '📢' : '🔊') : (dispatcher.volume === 0 ? '🔇' : '🔉')} | Volume: ${Math.round(dispatcher.volume * 50)}%`);
-		}
-
-		return undefined;
+		return msg.send(`${vol > dispatcher.volume * 50 ? (dispatcher.volume === 2 ? '📢' : '🔊') : (dispatcher.volume === 0 ? '🔇' : '🔉')} | Volume: ${Math.round(dispatcher.volume * 50)}%.`);
 	}
 
 };

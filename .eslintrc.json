@@ -1,12 +1,13 @@
-{ 
-  "parserOptions": { 
-    "ecmaVersion": 8 
-  }, 
-  "env": { 
-    "node": true 
-  }, 
-  "extends": "eslint:recommended", 
-  "rules": { 
+{
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "env": {
+		"node": true,
+		"es6": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
     "accessor-pairs": "warn",
 		"array-callback-return": "error",
 		"complexity": "warn",
@@ -132,5 +133,5 @@
 		"rest-spread-spacing": "error",
 		"template-curly-spacing": "error",
 		"yield-star-spacing": "error"
-  } 
+  }
 }

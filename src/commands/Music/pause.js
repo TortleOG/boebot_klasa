@@ -8,15 +8,17 @@ module.exports = class extends Command {
 			cooldown: 5,
 			description: 'Pauses the current song.'
 		});
+
+		this.requireMusic = true;
 	}
 
 	async run(msg) {
-		if (!msg.guild.voiceConnection) throw `❌ | ${msg.author}, I am not connected to any voice channels, add some songs to the queue with \`${msg.guild.configs.prefix}add <song:url>\`.`;
-		else if (msg.guild.voiceConnection.dispatcher.paused) throw `❌ | ${msg.author}, the stream is already paused. Use \`${msg.guild.configs.prefix}resume\` to resume the song.`;
+		const { music } = msg.guild;
+		if (music.status === 'idle') throw `❌ | ${msg.author}, there are no streams currently playing.`;
+		if (music.status === 'paused') throw `❌ | ${msg.author}, the stream is already paused.`;
 
-		msg.guild.voiceConnection.dispatcher.pause();
-
-		return msg.send('⏸ | Paused!');
+		music.pause();
+		return msg.send('⏸ | Paused.');
 	}
 
 };
