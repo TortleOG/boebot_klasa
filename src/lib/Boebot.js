@@ -4,6 +4,7 @@ const { Collection } = require('discord.js');
 
 // Externals
 const Currency = require('./structures/Currency');
+const Music = require('./music/Music');
 
 // Add custom perm levels
 const permissionLevels = new PermissionLevels()
@@ -33,6 +34,8 @@ module.exports = class BoebotClient extends Client {
 		this.currency = null;
 
 		this.permissionLevels = permissionLevels;
+
+		this.queue = new Music(this);
 	}
 
 	async login(token) {
