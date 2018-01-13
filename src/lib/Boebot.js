@@ -49,9 +49,12 @@ module.exports = class BoebotClient extends Client {
 	async validate() {
 		const { schema } = this.gateways.guilds;
 		if (!schema.hasKey('modlog')) await schema.addKey('modlog', { type: 'TextChannel' });
-		else if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
-		else if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
-		else if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
+		if (!schema.hasKey('muterole')) await schema.addKey('muterole', { type: 'Role' });
+		if (!schema.hasKey('modRole')) await schema.addKey('modRole', { type: 'Role' });
+		if (!schema.hasKey('adminRole')) await schema.addKey('adminRole', { type: 'Role' });
+		if (!schema.hasKey('music')) {
+			await schema.addFolder('music', { musicTC: { type: 'TextChannel' } });
+		}
 		return null;
 	}
 
