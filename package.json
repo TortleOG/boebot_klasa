@@ -20,14 +20,15 @@
     "eslint": "^4.12.1"
   },
   "dependencies": {
-    "discord.js": "github:hydrabolt/discord.js#master",
+    "discord.js": "github:hydrabolt/discord.js#voice-rewrite",
     "klasa": "github:dirigeants/klasa",
     "moment": "^2.19.3",
-    "moment-duration-format": "^2.0.0",
+    "moment-duration-format": "^2.1.1",
     "ms": "^2.1.1",
     "node-opus": "^0.2.7",
+    "prism-media": "github:hydrabolt/prism-media#indev",
     "rethinkdbdash": "^2.3.31",
     "snekfetch": "^3.6.1",
-    "ytdl-core": "^0.18.3"
+    "ytdl-core": "^0.18.6"
   }
 }
