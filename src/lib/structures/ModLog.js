@@ -47,7 +47,11 @@ module.exports = class ModLog {
 
 	async getCase() {
 		const row = await this.provider.get('modlogs', this.guild.id);
-		if (!row) return this.provider.create('modlogs', this.guild.id, { modlogs: [this.pack] }).then(() => 1);
+		if (!row) {
+			this.case = 1;
+			return this.provider.create('modlogs', this.guild.id, { modlogs: [this.pack] }).then(() => 1);
+		}
+		this.case = row.modlogs.length + 1;
 		row.modlogs.push(this.pack);
 		await this.provider.replace('modlogs', this.guild.id, row);
 		return row.modlogs.length;
