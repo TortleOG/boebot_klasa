@@ -27,7 +27,7 @@ module.exports = class extends Command {
 		else if (!member.bannable) throw `❌ | ${msg.author}, I cannot ban this user.`;
 		else if (member.highestRole.position >= msg.member.highestRole.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
 
-		await msg.guild.ban(user, { reason });
+		await msg.guild.members.ban(user, { reason });
 
 		if (msg.guild.configs.mod.modlog) {
 			new ModLog(msg.guild)

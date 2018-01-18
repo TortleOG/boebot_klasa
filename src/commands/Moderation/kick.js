@@ -25,7 +25,7 @@ module.exports = class extends Command {
 
 		await member.kick(reason);
 
-		if (msg.guild.setttings.modlog) {
+		if (msg.guild.configs.mod.modlog) {
 			new ModLog(msg.guild)
 				.setType('kick')
 				.setUser(member.user)
