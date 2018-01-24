@@ -53,10 +53,7 @@ module.exports = class extends Command {
 					musicInterface.client.emit('log', err, 'error');
 					musicInterface.skip();
 					this.play(musicInterface);
-				}),	(message) => {
-					musicInterface.channel.send(message);
-					musicInterface.destroy();
-				}
+				})
 			);
 	}
 
