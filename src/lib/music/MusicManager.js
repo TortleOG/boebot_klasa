@@ -82,12 +82,12 @@ module.exports = class MusicManager {
 				.pipe(new prism.WebmOpusDemuxer())
 				.on('error', err => this.client.emit('log', err, 'error'));
 
-			this.dispatcher = this.connection.play(stream, { passes: 3 });
+			this.dispatcher = this.connection.play(stream, { passes: 5 });
 		} else {
 			const stream = ytdl(song.url, { filter: 'audioonly' })
 				.on('error', err => this.client.emit('log', err, 'error'));
 
-			this.dispatcher = this.connection.play(stream, { passes: 3, volume: 0.3 });
+			this.dispatcher = this.connection.play(stream, { passes: 5, volume: 0.3 });
 		}
 
 		return this.dispatcher;
