@@ -1,5 +1,5 @@
 const { Command } = require('klasa');
-const ms = require('ms');
+const { Duration } = require('klasa');
 
 module.exports = class extends Command {
 
@@ -29,12 +29,12 @@ module.exports = class extends Command {
 			delete this.client.lockit[msg.channel.id];
 		} else {
 			await msg.channel.overwritePermissions(msg.guild.id, { SEND_MESSAGES: false }).catch(err => { throw err; });
-			await msg.send(`🔒 | Channel locked down for ${ms(ms(time), { long: true })}`);
+			await msg.send(`🔒 | Channel locked down for \`${time}\`.`);
 			this.client.lockit[msg.channel.id] = setTimeout(async () => {
 				await msg.channel.overwritePermissions(msg.guild.id, { SEND_MESSAGES: null }).catch(err => { throw err; });
 				msg.send('🔓 | Lockdown lifted.');
 				delete this.client.lockit[msg.channel.id];
-			}, ms(time));
+			}, new Duration(time).offset);
 		}
 	}
 
