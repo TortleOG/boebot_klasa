@@ -1,5 +1,4 @@
 const ytdl = require('ytdl-core');
-const prism = require('prism-media');
 const getInfo = require('util').promisify(ytdl.getInfo);
 
 module.exports = class MusicManager {
@@ -77,18 +76,13 @@ module.exports = class MusicManager {
 		const song = this.queue[0];
 		this.pushPlayed(song.url);
 
-		if (song.opus) {
-			const stream = ytdl(song.url, { filter: format => format.type === `audio/webm; codecs="opus"` })
-				.pipe(new prism.WebmOpusDemuxer())
-				.on('error', err => this.client.emit('log', err, 'error'));
+		const stream = ytdl(song.url, {
+			filter: song.opus ?
+				format => format.type === `audio/webm; codecs="opus"` :
+				'audioonly'
+		}).on('error', err => this.client.emit('log', err, 'error'));
 
-			this.dispatcher = this.connection.play(stream, { passes: 5 });
-		} else {
-			const stream = ytdl(song.url, { filter: 'audioonly' })
-				.on('error', err => this.client.emit('log', err, 'error'));
-
-			this.dispatcher = this.connection.play(stream, { passes: 5, volume: 0.3 });
-		}
+		this.dispatcher = this.connection.play(stream, { type: song.opus ? 'webm/opus' : 'unknown', passes: 5 });
 
 		return this.dispatcher;
 	}
