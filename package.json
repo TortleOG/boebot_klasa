@@ -27,7 +27,6 @@
     "moment-duration-format": "^2.1.1",
     "ms": "^2.1.1",
     "node-opus": "^0.2.7",
-    "prism-media": "^0.1.0",
     "rethinkdbdash": "^2.3.31",
     "snekfetch": "^3.6.1",
     "ytdl-core": "^0.20.0"
