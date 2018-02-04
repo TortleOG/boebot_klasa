@@ -19,7 +19,7 @@ module.exports = class extends Command {
 		reason = reason.length > 0 ? reason.join(' ') : null;
 
 		if (user.bot) throw `❌ | ${msg.author}, I cannot execute moderation actions against bots.`;
-		else if (msg.guild.member(user).highestRole.position >= msg.member.highestRole.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
+		else if (msg.guild.member(user).roles.highest.position >= msg.member.roles.highest.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
 
 		if (msg.guild.configs.mod.modlog) {
 			new ModLog(msg.guild)

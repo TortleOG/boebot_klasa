@@ -23,7 +23,7 @@ module.exports = class extends Command {
 		if (!role) throw `❌ | I could not find a 'muted' role. Was it deleted?`;
 
 		if (member.user.bot) throw `❌ | ${msg.author}, I cannot execute moderation actions against bots.`;
-		else if (member.highestRole.position >= msg.member.highestRole.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
+		else if (member.roles.highest.position >= msg.member.roles.highest.position) throw `❌ | ${msg.author}, I cannot execute moderation actions against this user.`;
 		else if (member.roles.has(role.id)) throw `❌ | ${msg.author}, this user is already muted.`;
 
 		await member.addRole(role).catch(err => { throw err; });
