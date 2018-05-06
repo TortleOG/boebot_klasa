@@ -23,7 +23,7 @@
     "discord.js": "github:discordjs/discord.js",
     "ffmpeg-binaries": "^3.2.2-3",
     "klasa": "github:dirigeants/klasa",
-    "node-opus": "^0.2.7",
+    "node-opus": "^0.3.0",
     "rethinkdbdash": "^2.3.31",
     "snekfetch": "^3.6.1",
     "ytdl-core": "^0.20.0"
