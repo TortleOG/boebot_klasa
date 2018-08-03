@@ -26,6 +26,6 @@
     "node-opus": "^0.2.7",
     "rethinkdbdash": "^2.3.31",
     "snekfetch": "^3.6.1",
-    "ytdl-core": "^0.20.0"
+    "ytdl-core": "^0.23.0"
   }
 }
